@@ -1,8 +1,7 @@
 name: 每日籌碼推播雷達
 
 on:
-  schedule:
-    - cron: '0 8 * * 1-5' # 台灣時間下午 16:00 執行
+
   workflow_dispatch:
 
 jobs:
