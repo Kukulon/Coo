@@ -153,7 +153,7 @@ if __name__ == "__main__":
         print("🤖 偵測到雲端排程環境，啟動自動推播模式...")
         
         # 自動模式下，我們固定抓取三大法人資料來推播
-        target_endpoint = "/fund/T86_ALL"
+        target_endpoint = "/opendata/t187ap05_L"
         df, file_path = fetch_twse_openapi(target_endpoint, my_watchlist, auto_mode=True)
         
         if df is not None and not df.empty:
