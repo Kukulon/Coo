@@ -28,4 +28,4 @@ jobs:
       env:
         TG_TOKEN: ${{ secrets.TG_TOKEN }}
         TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-      run: python tg_simple_msg.py
+      run: python tgmsg.py
