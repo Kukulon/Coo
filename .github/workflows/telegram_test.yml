@@ -1,0 +1,30 @@
+name: 測試 Telegram 推播
+
+# 觸發條件設定
+on:
+  workflow_dispatch: # 這個設定允許您在 GitHub 網頁上手動點擊 "Run workflow" 按鈕來執行
+
+jobs:
+  test_telegram_bot:
+    runs-on: ubuntu-latest # 使用最新版的 Ubuntu 虛擬機
+    
+    steps:
+    - name: 下載程式碼
+      uses: actions/checkout@v3
+    
+    - name: 設定 Python 3.10 環境
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        
+    - name: 安裝所需套件
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+        
+    - name: 執行發送訊息腳本
+      env:
+        # 將 GitHub Secrets 注入到環境變數中，供 Python 腳本讀取
+        TG_TOKEN: ${{ secrets.TG_TOKEN }}
+        TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+      run: python tg_simple_msg.py
