@@ -1,26 +1,38 @@
-name: 每日籌碼推播雷達
+name: TWSE Stock Monitor
 
+# 定義觸發條件
 on:
-  workflow_dispatch:
+  schedule:
+    # 這裡設定定時排程。注意：GitHub Actions 的時間是 UTC 時間（台灣時間 - 8 小時）
+    # 範例：台灣時間週一至週五下午 18:30 執行（等於 UTC 10:30）
+    - cron: '30 10 * * 1-5'
+  
+  workflow_dispatch: # 【關鍵】啟用這個標籤後，GitHub 介面就會出現手動執行的按鈕
 
 jobs:
-  build:
+  run-monitor-job:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: 設定 Python 環境
-      uses: actions/setup-python@v4
+    # 1. 複製儲存庫代碼到虛擬機
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    # 2. 設定 Python 環境
+    - name: Set up Python
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
-        
-    - name: 安裝所需套件
+        python-version: '3.10' # 可以指定你開發用的 Python 版本
+
+    # 3. 安裝相關套件（快取能加快後續執行速度，此處先以基本安裝示範）
+    - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install requests pandas
-        
-    - name: 執行抓取與 Telegram 推播腳本
+
+    # 4. 執行自動化腳本，並帶入加密環境變數
+    - name: Run TWSE Monitor Script
       env:
-        TG_TOKEN: ${{ secrets.TG_TOKEN }}      # 注入 Telegram Bot Token
-        TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}  # 注入接收者的 Chat ID
+        TG_TOKEN: ${{ secrets.TG_TOKEN }}      # 從 GitHub Secrets 讀取新申請的 Token
+        TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}  # 從 GitHub Secrets 讀取 Chat ID
       run: python twse_api_fetcher.py
