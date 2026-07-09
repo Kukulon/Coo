@@ -1,7 +1,6 @@
 name: 每日籌碼推播雷達
 
 on:
-
   workflow_dispatch:
 
 jobs:
