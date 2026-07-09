@@ -35,4 +35,10 @@ jobs:
       env:
         TG_TOKEN: ${{ secrets.TG_TOKEN }}      # 從 GitHub Secrets 讀取新申請的 Token
         TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}  # 從 GitHub Secrets 讀取 Chat ID
-      run: python twse_api_fetcher.py
+      run: python twse_api_fetcher.py 
+     # 5. 執行自動化腳本，並帶入加密環境變數
+    - name: Run TWSE BWIBBU Script
+      env:
+        TG_TOKEN: ${{ secrets.TG_TOKEN }}      # 從 GitHub Secrets 讀取新申請的 Token
+        TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}  # 從 GitHub Secrets 讀取 Chat ID
+      run: twse_api_BWIBBU_ALL.py
